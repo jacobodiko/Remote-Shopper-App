@@ -1,2 +1,2 @@
-# RemoteShopper-App
-A Spring Boot Microservice Application for Online Shopping
+# Remote-Shopper-App
+A web application for online shopping 
