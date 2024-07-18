@@ -1,0 +1,110 @@
+server:
+  port: 9999
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: UserManagementService-route
+          uri: lb://USER-MANAGEMENT-SERVICE
+          predicates:
+            - Path=/api/users/**
+        - id: CartItemsManagementService-route
+          uri: lb://CART-ITEMS-MANAGEMENT-SERVICE
+          predicates:
+            - Path=/api/cart/**
+        - id: OrderService-route
+          uri: lb://ORDER-SERVICE
+          predicates:
+            - Path=/api/orders/**
+        - id: ProductService-route
+          uri: lb://PRODUCT-SERVICE
+          predicates:
+            - Path=/api/products/**
+
+# Swagger Config
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    display-urls: true
+  paths:
+    mapping: /v3/api-docs  # Corrected path mapping for OpenAPI definition
+
+# Eureka Config
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
+
+
+
+#server:
+#  port: 9999
+#
+#spring:
+#  application:
+#    name: gateway-service
+#  cloud:
+#    gateway:
+#      discovery:
+#        locator:
+#          enabled: true
+#          lower-case-service-id: true
+#      routes:
+#        - id: UserManagementService-route
+#          uri: lb://USER-MANAGEMENT-SERVICE
+#          predicates:
+#            - Path=/api/users/**
+#          filters:
+#            - AddRequestHeader=X-Request-Gateway, UserManagementService
+#            - StripPrefix=1
+#        - id: CartItemsManagementService-route
+#          uri: lb://CART-ITEMS-MANAGEMENT-SERVICE
+#          predicates:
+#            - Path=/api/cart/**
+#          filters:
+#            - AddRequestHeader=X-Request-Gateway, CartItemsManagementService
+#            - StripPrefix=1
+#        - id: OrderService-route
+#          uri: lb://ORDER-SERVICE
+#          predicates:
+#            - Path=/api/orders/**
+#          filters:
+#            - AddRequestHeader=X-Request-Gateway, OrderService
+#            - StripPrefix=1
+#        - id: ProductService-route
+#          uri: lb://PRODUCT-SERVICE
+#          predicates:
+#            - Path=/api/products/**
+#          filters:
+#            - AddRequestHeader=X-Request-Gateway, ProductService
+#            - StripPrefix=1
+#        - id: EurekaServer-route
+#          uri: http://localhost:8761
+#          predicates:
+#            - Path=/eureka/**
+#          filters:
+#            - AddRequestHeader=X-Request-Gateway, EurekaServer
+#            - StripPrefix=1
+#
+## Swagger Config
+#springdoc:
+#  swagger-ui:
+#    path: /swagger-ui.html
+#    display-urls: true
+#  paths:
+#    mapping: /v3/api-docs  # Corrected path mapping for OpenAPI definition
+#
+## Eureka Config
+#eureka:
+#  client:
+#    service-url:
+#      default-zone: http://localhost:8761/eureka
+#  instance:
+#    prefer-ip-address: true
